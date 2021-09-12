@@ -1,10 +1,10 @@
 import 'package:mobx/mobx.dart';
 
-part 'base_store.g.dart';
+part 'entity_store.g.dart';
 
-class BaseStore = _BaseStore with _$BaseStore;
+class EntityStore = _EntityStore with _$EntityStore;
 
-abstract class _BaseStore with Store {
+abstract class _EntityStore with Store {
 
   //OBSERVABLES
   @observable
@@ -21,7 +21,12 @@ abstract class _BaseStore with Store {
 
   //ACTIONS
   @action
-  setChosenDate(String? inDate){
+  void setStackIndex(int inIndex){
+    stackIndex = inIndex;
+  }
+
+  @action
+  void setChosenDate(String? inDate){
     chosenDate = inDate;
   }
 
@@ -29,4 +34,5 @@ abstract class _BaseStore with Store {
   Future<void> loadData(dynamic inDatabase) async {
     List<Map<String, dynamic>> rawData = await inDatabase.read();
   }
+
 }

@@ -39,7 +39,8 @@ class Organizer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 32, bottom: 4, top: 32),
+                          padding: const EdgeInsets.only(
+                              left: 32, bottom: 4, top: 32),
                           child: AnimatedTextKit(
                             isRepeatingAnimation: false,
                             animatedTexts: [

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'base_store.dart';
+part of 'entity_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'base_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$BaseStore on _BaseStore, Store {
-  final _$entityBeingEditedAtom = Atom(name: '_BaseStore.entityBeingEdited');
+mixin _$EntityStore on _EntityStore, Store {
+  final _$entityBeingEditedAtom = Atom(name: '_EntityStore.entityBeingEdited');
 
   @override
   dynamic get entityBeingEdited {
@@ -24,7 +24,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$stackIndexAtom = Atom(name: '_BaseStore.stackIndex');
+  final _$stackIndexAtom = Atom(name: '_EntityStore.stackIndex');
 
   @override
   int get stackIndex {
@@ -39,7 +39,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$entityListAtom = Atom(name: '_BaseStore.entityList');
+  final _$entityListAtom = Atom(name: '_EntityStore.entityList');
 
   @override
   List<dynamic> get entityList {
@@ -54,7 +54,7 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$chosenDateAtom = Atom(name: '_BaseStore.chosenDate');
+  final _$chosenDateAtom = Atom(name: '_EntityStore.chosenDate');
 
   @override
   String? get chosenDate {
@@ -69,23 +69,34 @@ mixin _$BaseStore on _BaseStore, Store {
     });
   }
 
-  final _$loadDataAsyncAction = AsyncAction('_BaseStore.loadData');
+  final _$loadDataAsyncAction = AsyncAction('_EntityStore.loadData');
 
   @override
   Future<void> loadData(dynamic inDatabase) {
     return _$loadDataAsyncAction.run(() => super.loadData(inDatabase));
   }
 
-  final _$_BaseStoreActionController = ActionController(name: '_BaseStore');
+  final _$_EntityStoreActionController = ActionController(name: '_EntityStore');
 
   @override
-  dynamic setChosenDate(String? inDate) {
-    final _$actionInfo = _$_BaseStoreActionController.startAction(
-        name: '_BaseStore.setChosenDate');
+  void setStackIndex(int inIndex) {
+    final _$actionInfo = _$_EntityStoreActionController.startAction(
+        name: '_EntityStore.setStackIndex');
+    try {
+      return super.setStackIndex(inIndex);
+    } finally {
+      _$_EntityStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setChosenDate(String? inDate) {
+    final _$actionInfo = _$_EntityStoreActionController.startAction(
+        name: '_EntityStore.setChosenDate');
     try {
       return super.setChosenDate(inDate);
     } finally {
-      _$_BaseStoreActionController.endAction(_$actionInfo);
+      _$_EntityStoreActionController.endAction(_$actionInfo);
     }
   }
 

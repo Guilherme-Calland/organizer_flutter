@@ -5,12 +5,14 @@ class OrganizerCard extends StatelessWidget {
   final double? borderRadius;
   final Color? color;
   final double? elevation;
+  final bool? bottomRounded;
 
   OrganizerCard({
     required this.child,
     this.color,
     this.borderRadius,
     this.elevation,
+    this.bottomRounded,
   });
 
   @override
@@ -18,12 +20,14 @@ class OrganizerCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8),
       child: Card(
-        elevation: elevation ?? 10.0,
+        elevation: elevation ?? 5.0,
         color: color ?? Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(borderRadius ?? 20.0),
-            topRight: Radius.circular(borderRadius ?? 20.0),
+            topLeft: Radius.circular(borderRadius ?? 10.0),
+            topRight: Radius.circular(borderRadius ?? 10.0),
+            bottomLeft: Radius.circular((bottomRounded ?? true) ? (borderRadius ?? 10.0) : 0.0),
+            bottomRight: Radius.circular((bottomRounded ?? true) ? (borderRadius ?? 10.0) : 0.0),
           ),
         ),
         child: child,

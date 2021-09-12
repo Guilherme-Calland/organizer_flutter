@@ -10,9 +10,9 @@ class OrganizerListFragment extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
-          elevation: 5,
-          child: Icon(Icons.add),
-          onPressed: onFabPressed
+        elevation: 0,
+        child: Icon(Icons.add),
+        onPressed: onFabPressed
       ),
       body: child,
     );

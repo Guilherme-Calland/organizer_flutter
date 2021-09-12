@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:organizer/model/note.dart';
 
 part 'entity_store.g.dart';
 
@@ -8,7 +9,7 @@ abstract class _EntityStore with Store {
 
   //OBSERVABLES
   @observable
-  var entityBeingEdited;
+  dynamic entityBeingEdited;
 
   @observable
   int stackIndex = 0;
@@ -17,7 +18,7 @@ abstract class _EntityStore with Store {
   List entityList = [];
 
   @observable
-  String? chosenDate = '';
+  bool initialLoadDataFlag = true;
 
   //ACTIONS
   @action
@@ -26,13 +27,19 @@ abstract class _EntityStore with Store {
   }
 
   @action
-  void setChosenDate(String? inDate){
-    chosenDate = inDate;
+  Future<void> loadData(dynamic inDatabase) async {
+    List<Map<String, dynamic>> rawData = await inDatabase.read();
+    List<Note> noteList = [];
+    rawData.forEach((element) {
+      Note note = Note.mapToNote(element);
+      noteList.add(note);
+    });
+    entityList = noteList;
   }
 
   @action
-  Future<void> loadData(dynamic inDatabase) async {
-    List<Map<String, dynamic>> rawData = await inDatabase.read();
+  void triggeredInitialLoadDataFlag(){
+    initialLoadDataFlag = false;
   }
 
 }

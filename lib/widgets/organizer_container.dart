@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 
 class OrganizerContainer extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double? borderRadius;
   final Color? color;
   final bool? bottomRounded;
   final EdgeInsets? margin;
+  final double? size;
 
   OrganizerContainer({
-    required this.child,
+    this.child,
     this.color,
     this.borderRadius,
     this.bottomRounded,
-    this.margin
+    this.margin,
+    this.size
   });
 
   @override
   Widget build(_) {
     return Container(
-      margin: margin ?? null,
+      width: size,
+      height: size,
+      margin: margin,
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.only(

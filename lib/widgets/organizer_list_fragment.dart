@@ -7,14 +7,17 @@ class OrganizerListFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        child: Icon(Icons.add),
-        onPressed: onFabPressed
+    return Padding(
+      padding: EdgeInsets.only(top: 24),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: FloatingActionButton(
+          elevation: 0,
+          child: Icon(Icons.add),
+          onPressed: onFabPressed
+        ),
+        body: child,
       ),
-      body: child,
     );
   }
 }

@@ -54,18 +54,19 @@ mixin _$EntityStore on _EntityStore, Store {
     });
   }
 
-  final _$chosenDateAtom = Atom(name: '_EntityStore.chosenDate');
+  final _$initialLoadDataFlagAtom =
+      Atom(name: '_EntityStore.initialLoadDataFlag');
 
   @override
-  String? get chosenDate {
-    _$chosenDateAtom.reportRead();
-    return super.chosenDate;
+  bool get initialLoadDataFlag {
+    _$initialLoadDataFlagAtom.reportRead();
+    return super.initialLoadDataFlag;
   }
 
   @override
-  set chosenDate(String? value) {
-    _$chosenDateAtom.reportWrite(value, super.chosenDate, () {
-      super.chosenDate = value;
+  set initialLoadDataFlag(bool value) {
+    _$initialLoadDataFlagAtom.reportWrite(value, super.initialLoadDataFlag, () {
+      super.initialLoadDataFlag = value;
     });
   }
 
@@ -90,11 +91,11 @@ mixin _$EntityStore on _EntityStore, Store {
   }
 
   @override
-  void setChosenDate(String? inDate) {
+  void triggeredInitialLoadDataFlag() {
     final _$actionInfo = _$_EntityStoreActionController.startAction(
-        name: '_EntityStore.setChosenDate');
+        name: '_EntityStore.triggeredInitialLoadDataFlag');
     try {
-      return super.setChosenDate(inDate);
+      return super.triggeredInitialLoadDataFlag();
     } finally {
       _$_EntityStoreActionController.endAction(_$actionInfo);
     }
@@ -106,7 +107,7 @@ mixin _$EntityStore on _EntityStore, Store {
 entityBeingEdited: ${entityBeingEdited},
 stackIndex: ${stackIndex},
 entityList: ${entityList},
-chosenDate: ${chosenDate}
+initialLoadDataFlag: ${initialLoadDataFlag}
     ''';
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizer/database/database_worker.dart';
 import 'package:organizer/mobx_stores/appointments/appointments_store.dart';
 import 'package:organizer/mobx_stores/notes/notes_store.dart';
 import 'package:organizer/mobx_stores/tasks/tasks_store.dart';
@@ -22,6 +23,9 @@ Map<int, Color> organizerThemeColorMap = {
 
 MaterialColor organizerThemeMaterialColor = MaterialColor(0xff52955a, organizerThemeColorMap);
 
+//NOTES
 final notesStore = NotesStore();
+final notesDB = DatabaseWorker();
+
 final appointmentsStore = AppointmentsStore();
 final tasksStore = TasksStore();

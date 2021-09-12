@@ -13,9 +13,9 @@ class OrganizerEntryFragment extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(left: 12, right: 12, top: 24),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          child,
-          Spacer(),
+          Expanded(child: child),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

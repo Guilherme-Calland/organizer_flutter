@@ -11,3 +11,19 @@ Future<void> ajustScreenSettings() async {
 
 Future<dynamic> sleep({required int milliseconds}) =>
     Future.delayed(Duration(milliseconds: milliseconds));
+
+void hideKeyboard(BuildContext inContext) {
+  FocusScope.of(inContext).requestFocus(FocusNode());
+}
+
+void showSnackBar(BuildContext inContext,
+    {Color? inColor, String? inText}) {
+  SnackBar snack = SnackBar(
+    backgroundColor: inColor ?? Colors.grey,
+    duration: Duration(seconds: 2),
+    content: Text(
+        inText ?? 'random snack bar'
+    ),
+  );
+  ScaffoldMessenger.of(inContext).showSnackBar(snack);
+}

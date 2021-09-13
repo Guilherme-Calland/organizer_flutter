@@ -20,10 +20,19 @@ abstract class _EntityStore with Store {
   @observable
   bool initialLoadDataFlag = true;
 
+  @observable
+  String chosenDate = '';
+
   //ACTIONS
   @action
   void setStackIndex(int inIndex){
     stackIndex = inIndex;
+  }
+
+  @action
+  void setChosenDate(String inDate){
+    chosenDate = inDate;
+    print(chosenDate);
   }
 
   @action
@@ -34,7 +43,6 @@ abstract class _EntityStore with Store {
       Note note = Note.mapToNote(element);
       noteList.add(note);
     });
-    print(noteList);
     entityList = noteList;
   }
 
@@ -42,5 +50,4 @@ abstract class _EntityStore with Store {
   void triggeredInitialLoadDataFlag(){
     initialLoadDataFlag = false;
   }
-
 }

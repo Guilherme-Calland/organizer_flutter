@@ -69,14 +69,14 @@ class Organizer extends StatelessWidget {
                             ),
                             Tab(
                               icon: Icon(
-                                Icons.notes,
+                                Icons.date_range,
                               ),
                             ),
                             Tab(
                               icon: Icon(
-                                Icons.date_range,
+                                Icons.notes,
                               ),
-                            )
+                            ),
                           ],
                         )
                       ],
@@ -86,8 +86,8 @@ class Organizer extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         NotesTab(),
-                        TasksTab(),
                         AppointmentsTab(),
+                        TasksTab(),
                       ],
                     ),
                   ),

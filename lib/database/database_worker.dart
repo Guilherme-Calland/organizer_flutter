@@ -1,10 +1,11 @@
+import 'package:organizer/database/database_brain.dart' as dbBrain;
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseWorker{
   Database? _database;
-
-  DatabaseWorker();
+  String dbType;
+  DatabaseWorker(this.dbType);
 
   Future get database async {
     return _database ?? await _initializeDatabase();
@@ -12,7 +13,7 @@ class DatabaseWorker{
 
   Future _initializeDatabase() async {
     final databasePath = await getDatabasesPath();
-    String entityDBPath = join(databasePath, 'notes.db');
+    String entityDBPath = join(databasePath, '$dbType.db');
     Database db = await openDatabase(
       entityDBPath, version: 1, onCreate: _onCreate
     );
@@ -20,25 +21,26 @@ class DatabaseWorker{
   }
 
   Future _onCreate(Database db, int version) async {
-    String sql = 'CREATE TABLE notes('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT, '
-        'title TEXT, '
-        'content TEXT, '
-        'color TEXT'
-        ')';
-    await db.execute(sql);
+    String? sql;
+    switch(this.dbType){
+      case 'notes': sql = dbBrain.notesSql; break;
+      case 'tasks' : sql = dbBrain.tasksSql; break;
+    }
+    if(sql != null){
+      await db.execute(sql);
+    }
   }
 
   Future create(Map<String, dynamic> inData) async {
     Database db = await database;
     int result;
-    result = await db.insert('notes', inData);
+    result = await db.insert(dbType, inData);
     return result;
   }
 
   Future read() async{
     Database db = await database;
-    String sql = 'SELECT * FROM notes ORDER BY id';
+    String sql = 'SELECT * FROM ${dbType} ORDER BY id';
     List data = await db.rawQuery(sql);
     return data;
   }
@@ -46,7 +48,7 @@ class DatabaseWorker{
   Future update(Map<String, dynamic> data) async{
     Database db = await database;
     int result = await db.update(
-      'notes',
+      dbType,
       data,
       where: 'id = ?',
       whereArgs: [ data['id'] ]
@@ -57,7 +59,7 @@ class DatabaseWorker{
   Future delete(int inID) async {
     Database db = await database;
     int result = await db.delete(
-      'notes', where: 'id = ?', whereArgs: [inID]
+      dbType, where: 'id = ?', whereArgs: [inID]
     );
     return result;
   }

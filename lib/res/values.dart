@@ -25,7 +25,12 @@ MaterialColor organizerThemeMaterialColor = MaterialColor(0xff52955a, organizerT
 
 //NOTES
 final notesStore = NotesStore();
-final notesDB = DatabaseWorker();
+final notesDB = DatabaseWorker('notes');
 
+//APPOINTMENTS
 final appointmentsStore = AppointmentsStore();
+final appointmentsDB = DatabaseWorker('appointments');
+
+//TASKS
 final tasksStore = TasksStore();
+final tasksDB = DatabaseWorker('tasks');

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:organizer/mobx_stores/entity_store.dart';
 import 'package:organizer/res/values.dart' as values;
 
 Future<void> ajustScreenSettings() async {
@@ -16,14 +18,28 @@ void hideKeyboard(BuildContext inContext) {
   FocusScope.of(inContext).requestFocus(FocusNode());
 }
 
-void showSnackBar(BuildContext inContext,
-    {Color? inColor, String? inText}) {
-  SnackBar snack = SnackBar(
-    backgroundColor: inColor ?? Colors.grey,
-    duration: Duration(seconds: 2),
-    content: Text(
-        inText ?? 'random snack bar'
-    ),
+Future selectDate(BuildContext inContext, String? inDateString, EntityStore store) async {
+  DateTime initialDate = DateTime.now();
+  if (inDateString != null) {
+    List dateParts = inDateString.split(",");
+    initialDate = DateTime(
+      int.parse(dateParts[0]),
+      int.parse(dateParts[1]),
+      int.parse(dateParts[2]),
+    );
+  }
+
+  DateTime? picked = await showDatePicker(
+    context: inContext,
+    initialDate: initialDate,
+    firstDate: DateTime(1900),
+    lastDate: DateTime(2100),
   );
-  ScaffoldMessenger.of(inContext).showSnackBar(snack);
+
+  if(picked != null){
+    store.setChosenDate(
+        DateFormat.yMMMMd('en_US').format(picked.toLocal())
+    );
+    return '${picked.year}, ${picked.month}, ${picked.day}';
+  }
 }

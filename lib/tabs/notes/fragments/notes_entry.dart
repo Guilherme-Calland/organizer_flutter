@@ -67,23 +67,25 @@ class NotesEntry extends StatelessWidget {
             ),
           ),
           onCancelPressed: () {
-            utils.hideKeyboard(inContext);
-            values.notesStore.setStackIndex(0);
+            _goBack(inContext);
           },
-          onSavePressed: () {
-            _saveNote(inContext);
-          },
+          onSavePressed: () => _saveNote(inContext),
         );
       },
     );
   }
 
+  void _goBack(BuildContext inContext) {
+    utils.hideKeyboard(inContext);
+    values.notesStore.setStackIndex(0);
+  }
+
   _saveNote(BuildContext inContext) async {
     if (!_inputIsValid()) return;
-    Note inNote = values.notesStore.entityBeingEdited;
-    Map<String, dynamic> inData = inNote.noteToMap();
+    Note entryNote = values.notesStore.entityBeingEdited;
+    Map<String, dynamic> inData = entryNote.noteToMap();
 
-    if(inNote.id == null){
+    if(entryNote.id == null){
       int result = await values.notesDB.create(inData);
       if (result > 0) {
         await values.notesStore.loadData(values.notesDB);
@@ -95,8 +97,7 @@ class NotesEntry extends StatelessWidget {
         print('$result note updated successfully');
       }
     }
-    utils.hideKeyboard(inContext);
-    values.notesStore.setStackIndex(0);
+    _goBack(inContext);
   }
 
   bool _inputIsValid(){

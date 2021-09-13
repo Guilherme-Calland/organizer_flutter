@@ -70,6 +70,21 @@ mixin _$EntityStore on _EntityStore, Store {
     });
   }
 
+  final _$chosenDateAtom = Atom(name: '_EntityStore.chosenDate');
+
+  @override
+  String get chosenDate {
+    _$chosenDateAtom.reportRead();
+    return super.chosenDate;
+  }
+
+  @override
+  set chosenDate(String value) {
+    _$chosenDateAtom.reportWrite(value, super.chosenDate, () {
+      super.chosenDate = value;
+    });
+  }
+
   final _$loadDataAsyncAction = AsyncAction('_EntityStore.loadData');
 
   @override
@@ -85,6 +100,17 @@ mixin _$EntityStore on _EntityStore, Store {
         name: '_EntityStore.setStackIndex');
     try {
       return super.setStackIndex(inIndex);
+    } finally {
+      _$_EntityStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setChosenDate(String inDate) {
+    final _$actionInfo = _$_EntityStoreActionController.startAction(
+        name: '_EntityStore.setChosenDate');
+    try {
+      return super.setChosenDate(inDate);
     } finally {
       _$_EntityStoreActionController.endAction(_$actionInfo);
     }
@@ -107,7 +133,8 @@ mixin _$EntityStore on _EntityStore, Store {
 entityBeingEdited: ${entityBeingEdited},
 stackIndex: ${stackIndex},
 entityList: ${entityList},
-initialLoadDataFlag: ${initialLoadDataFlag}
+initialLoadDataFlag: ${initialLoadDataFlag},
+chosenDate: ${chosenDate}
     ''';
   }
 }

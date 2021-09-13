@@ -88,7 +88,7 @@ class NotesEntry extends StatelessWidget {
     if(entryNote.id == null){
       int result = await values.notesDB.create(inData);
       if (result > 0) {
-        await values.notesStore.loadData(values.notesDB);
+        await values.notesStore.loadData(values.notesDB, 'notes');
         print('created note of id $result successfully');
       }
     }else{

@@ -37,6 +37,6 @@ class OrganizerColorStickerOnList extends StatelessWidget {
     if(result == 1){
       print('$result note was updated');
     }
-    values.notesStore.loadData(values.notesDB);
+    values.notesStore.loadData(values.notesDB, 'notes');
   }
 }

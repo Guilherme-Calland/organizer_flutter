@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:organizer/model/note.dart';
+import 'package:organizer/model/task.dart';
 
 part 'entity_store.g.dart';
 
@@ -36,14 +37,22 @@ abstract class _EntityStore with Store {
   }
 
   @action
-  Future<void> loadData(dynamic inDatabase) async {
+  Future<void> loadData(dynamic inDatabase, String type) async {
     List<Map<String, dynamic>> rawData = await inDatabase.read();
-    List<Note> noteList = [];
-    rawData.forEach((element) {
-      Note note = Note.mapToNote(element);
-      noteList.add(note);
+    entityList = _convertToSpecificType(rawData, type);
+  }
+
+  List<dynamic> _convertToSpecificType(List<Map<String, dynamic>> rawData, String type) {
+    List entityListTemp = [];
+    rawData.forEach((entityMap) {
+      dynamic entity;
+      switch(type){
+        case 'notes' : entity = Note.mapToNote(entityMap); break;
+        case 'tasks' : entity = Task.mapToTask(entityMap); break;
+      }
+      entityListTemp.add(entity);
     });
-    entityList = noteList;
+    return entityListTemp;
   }
 
   @action

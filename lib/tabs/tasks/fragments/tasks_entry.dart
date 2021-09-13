@@ -73,6 +73,7 @@ class TasksEntry extends StatelessWidget {
     } else {
       print('FAILURE');
     }
+    values.tasksStore.loadData(values.tasksDB, 'tasks');
     utils.hideKeyboard(inContext);
     values.tasksStore.setStackIndex(0);
   }

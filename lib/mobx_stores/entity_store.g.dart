@@ -88,8 +88,8 @@ mixin _$EntityStore on _EntityStore, Store {
   final _$loadDataAsyncAction = AsyncAction('_EntityStore.loadData');
 
   @override
-  Future<void> loadData(dynamic inDatabase) {
-    return _$loadDataAsyncAction.run(() => super.loadData(inDatabase));
+  Future<void> loadData(dynamic inDatabase, String type) {
+    return _$loadDataAsyncAction.run(() => super.loadData(inDatabase, type));
   }
 
   final _$_EntityStoreActionController = ActionController(name: '_EntityStore');

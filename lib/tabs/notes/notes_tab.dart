@@ -18,7 +18,7 @@ class NotesTab extends StatelessWidget {
         values.notesStore.entityBeingEdited = Note();
       }
       values.notesStore.triggeredInitialLoadDataFlag();
-      await values.notesStore.loadData(values.notesDB);
+      await values.notesStore.loadData(values.notesDB, 'notes');
     }
   }
   @override

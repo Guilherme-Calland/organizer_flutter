@@ -56,7 +56,6 @@ class NotesList extends StatelessWidget {
                       color: Colors.red,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Icon(
                             Icons.delete,
@@ -138,6 +137,6 @@ class NotesList extends StatelessWidget {
     if(result == 1){
       print('$result note was deleted');
     }
-    values.notesStore.loadData(values.notesDB);
+    values.notesStore.loadData(values.notesDB, 'notes');
   }
 }

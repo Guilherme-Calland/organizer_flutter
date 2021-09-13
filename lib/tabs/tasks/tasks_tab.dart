@@ -18,7 +18,7 @@ class TasksTab extends StatelessWidget {
         values.tasksStore.entityBeingEdited = Task();
       }
       values.tasksStore.triggeredInitialLoadDataFlag();
-      // await values.tasksStore.loadData(values.notesDB);
+      await values.tasksStore.loadData(values.tasksDB, 'tasks');
     }
   }
 

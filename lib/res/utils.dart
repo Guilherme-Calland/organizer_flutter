@@ -40,6 +40,6 @@ Future selectDate(BuildContext inContext, String? inDateString, EntityStore stor
     store.setChosenDate(
         DateFormat.yMMMMd('en_US').format(picked.toLocal())
     );
-    return '${picked.year}, ${picked.month}, ${picked.day}';
+    return '${picked.day},${picked.month},${picked.year}';
   }
 }

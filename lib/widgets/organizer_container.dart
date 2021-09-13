@@ -6,6 +6,7 @@ class OrganizerContainer extends StatelessWidget {
   final Color? color;
   final bool? bottomRounded;
   final EdgeInsets? margin;
+  final EdgeInsets? padding;
   final double? size;
 
   OrganizerContainer({
@@ -14,6 +15,7 @@ class OrganizerContainer extends StatelessWidget {
     this.borderRadius,
     this.bottomRounded,
     this.margin,
+    this.padding,
     this.size
   });
 
@@ -23,6 +25,7 @@ class OrganizerContainer extends StatelessWidget {
       width: size,
       height: size,
       margin: margin,
+      padding: padding,
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.only(

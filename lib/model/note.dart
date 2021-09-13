@@ -2,9 +2,9 @@ class Note{
   int? id;
   String? title;
   String? content;
-  String? color;
+  String color = 'white';
 
-  Note({this.title, this.id, this.color, this.content});
+  Note({this.title, this.id, this.content, color});
 
   Note.mapToNote(Map<String, dynamic> inMap){
     this.id = inMap['id'];
@@ -17,7 +17,7 @@ class Note{
     Map<String, dynamic> outMap = {
       'title' : this.title ?? '',
       'content' : this.content ?? '',
-      'color' : this.color ?? ''
+      'color' : this.color
     };
 
     if(id != null){

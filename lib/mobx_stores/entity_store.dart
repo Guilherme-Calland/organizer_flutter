@@ -34,6 +34,7 @@ abstract class _EntityStore with Store {
       Note note = Note.mapToNote(element);
       noteList.add(note);
     });
+    print(noteList);
     entityList = noteList;
   }
 

@@ -8,11 +8,11 @@ class OrganizerListFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 24),
+      padding: EdgeInsets.only(top: 12),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton(
-          elevation: 0,
+          elevation: 5,
           child: Icon(Icons.add),
           onPressed: onFabPressed
         ),

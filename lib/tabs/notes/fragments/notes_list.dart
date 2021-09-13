@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizer/model/note.dart';
 import 'package:organizer/res/values.dart' as values;
+import 'package:organizer/widgets/organizer_color_sticker.dart';
+import 'package:organizer/widgets/organizer_container.dart';
 import 'package:organizer/widgets/organizer_list_fragment.dart';
 
 class NotesList extends StatelessWidget {
@@ -12,15 +16,88 @@ class NotesList extends StatelessWidget {
         values.notesStore.setColor(null);
         values.notesStore.setStackIndex(1);
       },
-      child: ListView.builder(
-        itemCount: 50,
-        itemBuilder: (_, int inIndex){
-          return ListTile(
-            title: Text('$inIndex'),
+      child: Observer(
+        builder: (_) {
+          return ListView.builder(
+            itemCount: values.notesStore.entityList.length,
+            itemBuilder: (_, int inIndex) {
+              Note noteOnIndex = values.notesStore.entityList[inIndex];
+              Color? colorOnIndex;
+              switch (noteOnIndex.color) {
+                case 'white':
+                  colorOnIndex = Color(0xfff1f1f1);
+                  break;
+                case 'red':
+                  colorOnIndex = Colors.red;
+                  break;
+                case 'green':
+                  colorOnIndex = Colors.green;
+                  break;
+                case 'blue':
+                  colorOnIndex = Colors.blue;
+                  break;
+                case 'yellow':
+                  colorOnIndex = Colors.yellow;
+                  break;
+                case 'grey':
+                  colorOnIndex = Colors.grey;
+                  break;
+                case 'purple':
+                  colorOnIndex = Colors.purple;
+              }
+              return Slidable(
+                actionPane: SlidableScrollActionPane(),
+                actions: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => print('to be implemented...'),
+                    child: OrganizerContainer(
+                      margin: EdgeInsets.only(top: 2.5, bottom: 2.5, left: 10),
+                      color: Colors.red,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+                child: OrganizerContainer(
+                  borderRadius: 10,
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+                  color: colorOnIndex,
+                  child: ListTile(
+                    title: Text(
+                      noteOnIndex.title ?? '',
+                      style: TextStyle(
+                        color: ((noteOnIndex.color == 'white') ||
+                            (noteOnIndex.color == 'yellow')
+                            ? Colors.black
+                            : Colors.white),
+                      ),
+                    ),
+                    subtitle: noteOnIndex.content != '' ? Text(
+                      noteOnIndex.content ?? '',
+                      style: TextStyle(
+                        color: ((noteOnIndex.color == 'white') ||
+                            (noteOnIndex.color == 'yellow')
+                            ? Colors.black
+                            : Colors.white),
+                      ),
+                    ) : null,
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
     );
   }
 }
-

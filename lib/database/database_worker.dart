@@ -35,4 +35,11 @@ class DatabaseWorker{
     result = await db.insert('notes', inData);
     return result;
   }
+
+  Future read() async{
+    Database db = await database;
+    String sql = 'SELECT * FROM notes ORDER BY id';
+    List data = await db.rawQuery(sql);
+    return data;
+  }
 }

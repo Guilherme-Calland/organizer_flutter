@@ -10,8 +10,6 @@ import 'package:organizer/widgets/organizer_entry_fragment.dart';
 class NotesEntry extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-
-
   @override
   Widget build(_) {
     return Observer(
@@ -26,6 +24,7 @@ class NotesEntry extends StatelessWidget {
                     leading: Icon(Icons.task),
                     title: TextFormField(
                       initialValue: values.notesStore.entityBeingEdited.title,
+                      keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(hintText: 'Title'),
                       validator: (String? inValue) {
                         if (inValue == '') {
@@ -40,7 +39,7 @@ class NotesEntry extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.content_paste),
                     title: TextFormField(
-                      keyboardType: TextInputType.multiline,
+                      keyboardType: TextInputType.visiblePassword,
                       maxLines: 8,
                       decoration: InputDecoration(hintText: 'Content'),
                       onChanged: (String inValue){
@@ -71,9 +70,7 @@ class NotesEntry extends StatelessWidget {
             values.notesStore.setStackIndex(0);
           },
           onSavePressed: () {
-            utils.hideKeyboard(inContext);
             _saveNote(inContext);
-            values.notesStore.setStackIndex(0);
           },
         );
       },
@@ -90,8 +87,11 @@ class NotesEntry extends StatelessWidget {
     Map<String, dynamic> inData = inNote.noteToMap();
     int result = await values.notesDB.create(inData);
     if(result > 0){
-      utils.showSnackBar(inContext, inText: 'Note Saved', inColor: Colors.grey);
+      await values.notesStore.loadData(values.notesDB);
+      print('created note of id $result successfully');
     }
+    utils.hideKeyboard(inContext);
+    values.notesStore.setStackIndex(0);
   }
 }
 

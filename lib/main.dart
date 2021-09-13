@@ -18,7 +18,6 @@ class Organizer extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'SquadaOne',
         scaffoldBackgroundColor: values.organizerThemeColor,
         primarySwatch: values.organizerThemeMaterialColor,
         textSelectionTheme:
@@ -51,6 +50,7 @@ class Organizer extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 62,
+                                  fontFamily: 'SquadaOne'
                                 ),
                               )
                             ],

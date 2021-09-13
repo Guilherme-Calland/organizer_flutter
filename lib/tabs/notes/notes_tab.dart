@@ -7,20 +7,20 @@ import 'fragments/notes_entry.dart';
 import 'fragments/notes_list.dart';
 
 class NotesTab extends StatelessWidget {
-
+  
   NotesTab(){
-    if(values.notesStore.entityBeingEdited == null){
-      values.notesStore.entityBeingEdited = Note();
-    }
-
-    if(values.notesStore.initialLoadDataFlag){
-      values.notesStore.triggeredInitialLoadDataFlag();
-      values.notesStore.loadData(values.notesDB);
-    }
-
-    print(values.notesStore.entityList);
+    loadNotesData();
   }
 
+  void loadNotesData() async{
+    if(values.notesStore.initialLoadDataFlag){
+      if(values.notesStore.entityBeingEdited == null){
+        values.notesStore.entityBeingEdited = Note();
+      }
+      values.notesStore.triggeredInitialLoadDataFlag();
+      await values.notesStore.loadData(values.notesDB);
+    }
+  }
   @override
   Widget build(_) {
     return OrganizerContainer(

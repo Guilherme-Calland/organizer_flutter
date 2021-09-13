@@ -28,7 +28,7 @@ class OrganizerEntryFragment extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                     child: Text(
                       'Cancel',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+                      style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'SquadaOne'),
                     ),
                   ),
                 ),
@@ -41,7 +41,7 @@ class OrganizerEntryFragment extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                     child: Text(
                       'Save',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+                      style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'SquadaOne'),
                     ),
                   ),
                   onTap: onSavePressed,

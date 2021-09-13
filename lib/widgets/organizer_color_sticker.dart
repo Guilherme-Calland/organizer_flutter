@@ -28,7 +28,6 @@ class OrganizerColorSticker extends StatelessWidget {
             onTap:() {
               values.notesStore.setColor( inColorName );
               values.notesStore.entityBeingEdited.color = inColorName;
-              //colca la em color apenas se for o note clicado aí ja atualiza no banco a nota editada
             }
         );
       },

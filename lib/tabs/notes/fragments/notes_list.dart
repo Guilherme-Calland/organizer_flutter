@@ -31,8 +31,8 @@ class NotesList extends StatelessWidget {
                 case 'red':
                   colorOnIndex = Colors.red;
                   break;
-                case 'green':
-                  colorOnIndex = Colors.green;
+                case 'pink':
+                  colorOnIndex = Color(0xffff75c8);
                   break;
                 case 'blue':
                   colorOnIndex = Colors.blue;
@@ -75,7 +75,7 @@ class NotesList extends StatelessWidget {
                       Row(
                         children: [
                           OrganizerColorStickerOnList(inColorName: 'red', inColor: Colors.red, inNote: noteOnIndex,),
-                          OrganizerColorStickerOnList(inColorName: 'green', inColor: Colors.green, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'pink', inColor: Color(0xffff75c8), inNote: noteOnIndex,),
                           OrganizerColorStickerOnList(inColorName: 'blue', inColor: Colors.blue, inNote: noteOnIndex,),
                         ],
                       ),

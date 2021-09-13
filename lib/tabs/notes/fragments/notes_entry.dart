@@ -53,7 +53,7 @@ class NotesEntry extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         OrganizerColorSticker(inColor: Colors.red, inColorName: 'red',),
-                        OrganizerColorSticker(inColor: Colors.green, inColorName: 'green',),
+                        OrganizerColorSticker(inColor: Color(0xffff75c8), inColorName: 'pink',),
                         OrganizerColorSticker(inColor: Colors.blue, inColorName: 'blue',),
                         OrganizerColorSticker(inColor: Colors.yellow, inColorName: 'yellow',),
                         OrganizerColorSticker(inColor: Colors.grey, inColorName: 'grey',),

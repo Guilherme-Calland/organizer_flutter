@@ -17,7 +17,7 @@ class OrganizerColorSticker extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             child: OrganizerContainer(
               borderRadius: 2,
-              color: values.notesStore.color == inColorName ? inColor : Colors.white,
+              color: values.notesStore.color == inColorName ? inColor : Colors.transparent,
               child: OrganizerContainer(
                 borderRadius: 2,
                 color: inColor,

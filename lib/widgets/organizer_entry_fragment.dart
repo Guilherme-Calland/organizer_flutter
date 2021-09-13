@@ -37,6 +37,7 @@ class OrganizerEntryFragment extends StatelessWidget {
               OrganizerContainer(
                 color: values.organizerThemeColor,
                 child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                     child: Text(

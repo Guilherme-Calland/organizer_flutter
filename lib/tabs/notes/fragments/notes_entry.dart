@@ -39,6 +39,7 @@ class NotesEntry extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.content_paste),
                     title: TextFormField(
+                      initialValue: values.notesStore.entityBeingEdited.content,
                       keyboardType: TextInputType.visiblePassword,
                       maxLines: 8,
                       decoration: InputDecoration(hintText: 'Content'),
@@ -56,7 +57,7 @@ class NotesEntry extends StatelessWidget {
                         OrganizerColorSticker(inColor: Color(0xffff75c8), inColorName: 'pink',),
                         OrganizerColorSticker(inColor: Colors.blue, inColorName: 'blue',),
                         OrganizerColorSticker(inColor: Colors.yellow, inColorName: 'yellow',),
-                        OrganizerColorSticker(inColor: Colors.grey, inColorName: 'grey',),
+                        OrganizerColorSticker(inColor: Colors.orange, inColorName: 'orange',),
                         OrganizerColorSticker(inColor: Colors.purple, inColorName: 'purple',),
                       ],
                     ),
@@ -77,21 +78,34 @@ class NotesEntry extends StatelessWidget {
     );
   }
 
-  _saveNote(BuildContext inContext) async{
-    if(_formKey.currentState != null){
-      if(!_formKey.currentState!.validate()){
-        return;
-      }
-    }
+  _saveNote(BuildContext inContext) async {
+    if (!_inputIsValid()) return;
     Note inNote = values.notesStore.entityBeingEdited;
     Map<String, dynamic> inData = inNote.noteToMap();
-    int result = await values.notesDB.create(inData);
-    if(result > 0){
-      await values.notesStore.loadData(values.notesDB);
-      print('created note of id $result successfully');
+
+    if(inNote.id == null){
+      int result = await values.notesDB.create(inData);
+      if (result > 0) {
+        await values.notesStore.loadData(values.notesDB);
+        print('created note of id $result successfully');
+      }
+    }else{
+      int result = await values.notesDB.update(inData);
+      if(result == 1){
+        print('$result note updated successfully');
+      }
     }
     utils.hideKeyboard(inContext);
     values.notesStore.setStackIndex(0);
+  }
+
+  bool _inputIsValid(){
+    if(_formKey.currentState != null){
+      if(!_formKey.currentState!.validate()){
+        return false;
+      }
+    }
+    return true;
   }
 }
 

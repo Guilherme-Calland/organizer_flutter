@@ -40,8 +40,8 @@ class NotesList extends StatelessWidget {
                 case 'yellow':
                   colorOnIndex = Colors.yellow;
                   break;
-                case 'grey':
-                  colorOnIndex = Colors.grey;
+                case 'orange':
+                  colorOnIndex = Colors.orange;
                   break;
                 case 'purple':
                   colorOnIndex = Colors.purple;
@@ -82,37 +82,47 @@ class NotesList extends StatelessWidget {
                       Row(
                         children: [
                           OrganizerColorStickerOnList(inColorName: 'yellow', inColor: Colors.yellow, inNote: noteOnIndex,),
-                          OrganizerColorStickerOnList(inColorName: 'grey', inColor: Colors.grey, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'orange', inColor: Colors.orange, inNote: noteOnIndex,),
                           OrganizerColorStickerOnList(inColorName: 'purple', inColor: Colors.purple, inNote: noteOnIndex,),
                         ],
                       ),
                     ],
-                  )
+                  ),
                 ],
-                child: OrganizerContainer(
-                  borderRadius: 10,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
-                  color: colorOnIndex,
-                  child: ListTile(
-                    title: Text(
-                      noteOnIndex.title ?? '',
-                      style: TextStyle(
-                        color: ((noteOnIndex.color == 'white') ||
-                            (noteOnIndex.color == 'yellow')
-                            ? Colors.black
-                            : Colors.white),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: (){
+                    values.notesStore.entityBeingEdited = noteOnIndex;
+                    values.notesStore.setColor(noteOnIndex.color);
+                    values.notesStore.setStackIndex(1);
+                  },
+                  child: OrganizerContainer(
+                    borderRadius: 10,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+                    color: colorOnIndex,
+                    child: ListTile(
+                      title: Text(
+                        noteOnIndex.title ?? '',
+                        style: TextStyle(
+                          color: ((noteOnIndex.color == 'white') ||
+                              (noteOnIndex.color == 'yellow')
+                              ? Colors.black
+                              : Colors.white
+                          ),
+                        ),
                       ),
+                      subtitle: noteOnIndex.content != '' ? Text(
+                        noteOnIndex.content ?? '',
+                        style: TextStyle(
+                          color: ((noteOnIndex.color == 'white') ||
+                              (noteOnIndex.color == 'yellow')
+                              ? Colors.black
+                              : Colors.white
+                          ),
+                        ),
+                      ) : null,
                     ),
-                    subtitle: noteOnIndex.content != '' ? Text(
-                      noteOnIndex.content ?? '',
-                      style: TextStyle(
-                        color: ((noteOnIndex.color == 'white') ||
-                            (noteOnIndex.color == 'yellow')
-                            ? Colors.black
-                            : Colors.white),
-                      ),
-                    ) : null,
                   ),
                 ),
               );

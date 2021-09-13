@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizer/model/note.dart';
 import 'package:organizer/res/values.dart' as values;
-import 'package:organizer/widgets/organizer_color_sticker.dart';
+import 'package:organizer/widgets/organizer_color_sticker_on_list.dart';
 import 'package:organizer/widgets/organizer_container.dart';
 import 'package:organizer/widgets/organizer_list_fragment.dart';
 
@@ -74,16 +74,16 @@ class NotesList extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          OrganizerColorSticker(inColorName: 'red', inColor: Colors.red),
-                          OrganizerColorSticker(inColorName: 'green', inColor: Colors.green),
-                          OrganizerColorSticker(inColorName: 'blue', inColor: Colors.blue),
+                          OrganizerColorStickerOnList(inColorName: 'red', inColor: Colors.red, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'green', inColor: Colors.green, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'blue', inColor: Colors.blue, inNote: noteOnIndex,),
                         ],
                       ),
                       Row(
                         children: [
-                          OrganizerColorSticker(inColorName: 'yellow', inColor: Colors.yellow),
-                          OrganizerColorSticker(inColorName: 'grey', inColor: Colors.grey),
-                          OrganizerColorSticker(inColorName: 'purple', inColor: Colors.purple),
+                          OrganizerColorStickerOnList(inColorName: 'yellow', inColor: Colors.yellow, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'grey', inColor: Colors.grey, inNote: noteOnIndex,),
+                          OrganizerColorStickerOnList(inColorName: 'purple', inColor: Colors.purple, inNote: noteOnIndex,),
                         ],
                       ),
                     ],

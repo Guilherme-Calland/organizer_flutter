@@ -19,6 +19,7 @@ class NotesList extends StatelessWidget {
       child: Observer(
         builder: (_) {
           return ListView.builder(
+            padding: EdgeInsets.only(top: 13.5),
             itemCount: values.notesStore.entityList.length,
             itemBuilder: (_, int inIndex) {
               Note noteOnIndex = values.notesStore.entityList[inIndex];
@@ -50,7 +51,6 @@ class NotesList extends StatelessWidget {
                 actions: [
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => print('to be implemented...'),
                     child: OrganizerContainer(
                       margin: EdgeInsets.only(top: 2.5, bottom: 2.5, left: 10),
                       color: Colors.red,
@@ -65,6 +65,28 @@ class NotesList extends StatelessWidget {
                         ],
                       ),
                     ),
+                    onTap: () => _deleteNote(noteOnIndex),
+                  )
+                ],
+                secondaryActions: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          OrganizerColorSticker(inColorName: 'red', inColor: Colors.red),
+                          OrganizerColorSticker(inColorName: 'green', inColor: Colors.green),
+                          OrganizerColorSticker(inColorName: 'blue', inColor: Colors.blue),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          OrganizerColorSticker(inColorName: 'yellow', inColor: Colors.yellow),
+                          OrganizerColorSticker(inColorName: 'grey', inColor: Colors.grey),
+                          OrganizerColorSticker(inColorName: 'purple', inColor: Colors.purple),
+                        ],
+                      ),
+                    ],
                   )
                 ],
                 child: OrganizerContainer(
@@ -99,5 +121,13 @@ class NotesList extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _deleteNote(Note noteOnIndex) async {
+    int result = await values.notesDB.delete(noteOnIndex.id!);
+    if(result == 1){
+      print('$result note was deleted');
+    }
+    values.notesStore.loadData(values.notesDB);
   }
 }

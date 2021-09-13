@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:organizer/model/note.dart';
 import 'package:organizer/res/values.dart' as values;
 import 'organizer_container.dart';
 
@@ -27,6 +28,7 @@ class OrganizerColorSticker extends StatelessWidget {
             onTap:() {
               values.notesStore.setColor( inColorName );
               values.notesStore.entityBeingEdited.color = inColorName;
+              //colca la em color apenas se for o note clicado aí ja atualiza no banco a nota editada
             }
         );
       },

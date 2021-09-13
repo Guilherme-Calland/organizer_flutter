@@ -42,4 +42,23 @@ class DatabaseWorker{
     List data = await db.rawQuery(sql);
     return data;
   }
+
+  Future update(Map<String, dynamic> data) async{
+    Database db = await database;
+    int result = await db.update(
+      'notes',
+      data,
+      where: 'id = ?',
+      whereArgs: [ data['id'] ]
+    );
+    return result;
+  }
+
+  Future delete(int inID) async {
+    Database db = await database;
+    int result = await db.delete(
+      'notes', where: 'id = ?', whereArgs: [inID]
+    );
+    return result;
+  }
 }

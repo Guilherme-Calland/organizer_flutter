@@ -33,6 +33,7 @@ class DatabaseWorker{
     String? sql;
     switch(this.dbType){
       case 'notes': sql = dbBrain.notesSql; break;
+      case 'appointments' : sql = dbBrain.appointmentsSql; break;
       case 'tasks' : sql = dbBrain.tasksSql; break;
     }
     if(sql != null){

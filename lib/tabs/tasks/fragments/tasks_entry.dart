@@ -27,7 +27,7 @@ class TasksEntry extends StatelessWidget {
                       keyboardType: TextInputType.visiblePassword,
                       validator: (String? inValue) {
                         if (inValue == '') {
-                          return 'Please enter a valid Title';
+                          return 'Please enter a valid title';
                         }
                       },
                       onChanged: (String inValue) {

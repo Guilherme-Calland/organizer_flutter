@@ -24,6 +24,21 @@ mixin _$EntityStore on _EntityStore, Store {
     });
   }
 
+  final _$chosenDateAtom = Atom(name: '_EntityStore.chosenDate');
+
+  @override
+  String get chosenDate {
+    _$chosenDateAtom.reportRead();
+    return super.chosenDate;
+  }
+
+  @override
+  set chosenDate(String value) {
+    _$chosenDateAtom.reportWrite(value, super.chosenDate, () {
+      super.chosenDate = value;
+    });
+  }
+
   final _$stackIndexAtom = Atom(name: '_EntityStore.stackIndex');
 
   @override
@@ -67,21 +82,6 @@ mixin _$EntityStore on _EntityStore, Store {
   set initialLoadDataFlag(bool value) {
     _$initialLoadDataFlagAtom.reportWrite(value, super.initialLoadDataFlag, () {
       super.initialLoadDataFlag = value;
-    });
-  }
-
-  final _$chosenDateAtom = Atom(name: '_EntityStore.chosenDate');
-
-  @override
-  String get chosenDate {
-    _$chosenDateAtom.reportRead();
-    return super.chosenDate;
-  }
-
-  @override
-  set chosenDate(String value) {
-    _$chosenDateAtom.reportWrite(value, super.chosenDate, () {
-      super.chosenDate = value;
     });
   }
 
@@ -131,10 +131,10 @@ mixin _$EntityStore on _EntityStore, Store {
   String toString() {
     return '''
 entityBeingEdited: ${entityBeingEdited},
+chosenDate: ${chosenDate},
 stackIndex: ${stackIndex},
 entityList: ${entityList},
-initialLoadDataFlag: ${initialLoadDataFlag},
-chosenDate: ${chosenDate}
+initialLoadDataFlag: ${initialLoadDataFlag}
     ''';
   }
 }

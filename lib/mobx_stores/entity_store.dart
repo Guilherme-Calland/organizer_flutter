@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:organizer/model/appointment.dart';
 import 'package:organizer/model/note.dart';
 import 'package:organizer/model/task.dart';
 
@@ -13,6 +14,9 @@ abstract class _EntityStore with Store {
   dynamic entityBeingEdited;
 
   @observable
+  String chosenDate = '';
+
+  @observable
   int stackIndex = 0;
 
   @observable
@@ -21,15 +25,13 @@ abstract class _EntityStore with Store {
   @observable
   bool initialLoadDataFlag = true;
 
-  @observable
-  String chosenDate = '';
-
   //ACTIONS
   @action
   void setStackIndex(int inIndex){
     stackIndex = inIndex;
   }
 
+  //ACTIONS
   @action
   void setChosenDate(String inDate){
     chosenDate = inDate;
@@ -48,6 +50,7 @@ abstract class _EntityStore with Store {
       dynamic entity;
       switch(type){
         case 'notes' : entity = Note.mapToNote(entityMap); break;
+        case 'appointments' : entity = Appointment.mapToAppointment(entityMap); break;
         case 'tasks' : entity = Task.mapToTask(entityMap); break;
       }
       entityListTemp.add(entity);

@@ -7,4 +7,13 @@ class AppointmentsStore = _AppointmentsStore with _$AppointmentsStore;
 
 abstract class _AppointmentsStore extends EntityStore with Store {
 
+  //OBSERVABLES
+  @observable
+  String apptTime = '';
+
+  //ACTIONS
+  @action
+  void setApptTime(String inApptTime){
+    apptTime = inApptTime;
+  }
 }

@@ -21,7 +21,7 @@ class NotesEntry extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    leading: Icon(Icons.task),
+                    leading: Icon(Icons.title),
                     title: TextFormField(
                       initialValue: values.notesStore.entityBeingEdited.title,
                       keyboardType: TextInputType.visiblePassword,

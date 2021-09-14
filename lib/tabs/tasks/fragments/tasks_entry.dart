@@ -21,7 +21,8 @@ class TasksEntry extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.notes),
                     title: TextFormField(
-                      initialValue: values.tasksStore.entityBeingEdited.description,
+                      initialValue:
+                          values.tasksStore.entityBeingEdited.description,
                       decoration: InputDecoration(hintText: 'Title'),
                       keyboardType: TextInputType.visiblePassword,
                       validator: (String? inValue) {
@@ -40,17 +41,18 @@ class TasksEntry extends StatelessWidget {
                     title: Text('Due date'),
                     subtitle: Text(values.tasksStore.chosenDate),
                     trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        color: values.organizerThemeColor,
-                        onPressed: () async {
-                          String chosenDate = await utils.selectDate(
-                            inContext,
-                            values.tasksStore.entityBeingEdited.dueDate,
-                            values.tasksStore,
-                          );
-                          values.tasksStore.entityBeingEdited.dueDate =
-                              chosenDate;
-                        }),
+                      icon: Icon(Icons.edit),
+                      color: values.organizerThemeColor,
+                      onPressed: () async {
+                        String chosenDate = await utils.selectDate(
+                          inContext,
+                          values.tasksStore.entityBeingEdited.dueDate,
+                          values.tasksStore,
+                        );
+                        values.tasksStore.entityBeingEdited.dueDate =
+                            chosenDate;
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -67,14 +69,19 @@ class TasksEntry extends StatelessWidget {
     if (!_inputIsValid()) return;
     Task entryTask = values.tasksStore.entityBeingEdited;
     Map<String, dynamic> inData = entryTask.taskToMap();
-    int result = await values.tasksDB.create(inData);
-    if (result > 0) {
-      print('created task of id $result');
+
+    if (entryTask.id == null){
+      int result = await values.tasksDB.create(inData);
+      if (result > 0) {
+        print('created task of id $result');
+      }
     } else {
-      print('FAILURE');
+      int result = await values.tasksDB.update(inData);
+      if (result == 1) {
+        print('created task of id $result');
+      }
     }
     values.tasksStore.loadData(values.tasksDB, 'tasks');
-    utils.hideKeyboard(inContext);
     values.tasksStore.setStackIndex(0);
   }
 

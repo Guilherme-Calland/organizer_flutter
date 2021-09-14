@@ -66,18 +66,11 @@ class NotesEntry extends StatelessWidget {
               ),
             ),
           ),
-          onCancelPressed: () {
-            _goBack(inContext);
-          },
+          onCancelPressed: () => values.notesStore.setStackIndex(0),
           onSavePressed: () => _saveNote(inContext),
         );
       },
     );
-  }
-
-  void _goBack(BuildContext inContext) {
-    utils.hideKeyboard(inContext);
-    values.notesStore.setStackIndex(0);
   }
 
   _saveNote(BuildContext inContext) async {
@@ -97,7 +90,7 @@ class NotesEntry extends StatelessWidget {
         print('$result note updated successfully');
       }
     }
-    _goBack(inContext);
+    values.notesStore.setStackIndex(0);
   }
 
   bool _inputIsValid(){

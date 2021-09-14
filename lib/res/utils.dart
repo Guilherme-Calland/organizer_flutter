@@ -28,18 +28,16 @@ Future selectDate(BuildContext inContext, String? inDateString, EntityStore stor
       int.parse(dateParts[2]),
     );
   }
-
   DateTime? picked = await showDatePicker(
     context: inContext,
     initialDate: initialDate,
     firstDate: DateTime(1900),
     lastDate: DateTime(2100),
   );
-
   if(picked != null){
     store.setChosenDate(
         DateFormat.yMMMMd('en_US').format(picked.toLocal())
     );
-    return '${picked.day},${picked.month},${picked.year}';
+    return '${picked.year}, ${picked.month}, ${picked.day}';
   }
 }

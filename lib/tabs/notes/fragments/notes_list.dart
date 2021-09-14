@@ -11,15 +11,11 @@ class NotesList extends StatelessWidget {
   @override
   Widget build(_) {
     return OrganizerListFragment(
-      onFabPressed: () {
-        values.notesStore.entityBeingEdited = Note();
-        values.notesStore.setColor(null);
-        values.notesStore.setStackIndex(1);
-      },
+      onFabPressed: () => _goToEntryCreate(),
       child: Observer(
         builder: (_) {
           return ListView.builder(
-            padding: EdgeInsets.only(top: 13.5),
+            padding: EdgeInsets.only(top: 11.5),
             itemCount: values.notesStore.entityList.length,
             itemBuilder: (_, int inIndex) {
               Note noteOnIndex = values.notesStore.entityList[inIndex];
@@ -90,11 +86,7 @@ class NotesList extends StatelessWidget {
                 ],
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onTap: (){
-                    values.notesStore.entityBeingEdited = noteOnIndex;
-                    values.notesStore.setColor(noteOnIndex.color);
-                    values.notesStore.setStackIndex(1);
-                  },
+                  onTap: () => _goToEntryEdit(noteOnIndex),
                   child: OrganizerContainer(
                     borderRadius: 10,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -132,7 +124,19 @@ class NotesList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteNote(Note noteOnIndex) async {
+  void _goToEntryCreate() {
+    values.notesStore.entityBeingEdited = Note();
+    values.notesStore.setColor(null);
+    values.notesStore.setStackIndex(1);
+  }
+
+  _goToEntryEdit(Note noteOnIndex) {
+    values.notesStore.entityBeingEdited = noteOnIndex;
+    values.notesStore.setColor(noteOnIndex.color);
+    values.notesStore.setStackIndex(1);
+  }
+
+  Future _deleteNote(Note noteOnIndex) async {
     int result = await values.notesDB.delete(noteOnIndex.id!);
     if(result == 1){
       print('$result note was deleted');

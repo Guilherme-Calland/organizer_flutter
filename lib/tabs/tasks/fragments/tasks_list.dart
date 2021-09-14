@@ -14,12 +14,10 @@ class TasksList extends StatelessWidget {
         builder: (BuildContext inContext) {
           return OrganizerListFragment(
             onFabPressed: () {
-              values.tasksStore.entityBeingEdited = Task();
-              values.tasksStore.setChosenDate('');
-              values.tasksStore.setStackIndex(1);
+              _goToEntryCreate();
             },
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 13.5),
+              padding: EdgeInsets.only(top: 11.5),
               itemCount: values.tasksStore.entityList.length,
               itemBuilder: (_, int inIndex) {
                 Task taskOnIndex = values.tasksStore.entityList[inIndex];
@@ -49,32 +47,36 @@ class TasksList extends StatelessWidget {
                       onTap: () => _deleteTask(taskOnIndex),
                     )
                   ],
-                  child: OrganizerContainer(
-                    borderRadius: 10,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
-                    color: taskOnIndex.completed == 'true'
-                        ? Color(0xffbfbfbf)
-                        : Color(0xffe0e0e0),
-                    child: ListTile(
-                        leading: Checkbox(
-                          value: taskOnIndex.completed == 'true' ? true : false,
-                          onChanged: (inValue) =>
-                              _updateTaskCheckBox(inValue, taskOnIndex),
-                        ),
-                        title: Text(
-                            '${taskOnIndex.description}',
-                            style: taskOnIndex.completed == 'true'
-                            ? TextStyle(
-                                color: Theme.of(inContext).disabledColor,
-                                decoration: TextDecoration.lineThrough
-                            )
-                            : TextStyle()
-                        ),
-                        subtitle: taskOnIndex.completed == 'false' ?
-                        (taskOnIndex.dueDate != null ? Text('${taskOnIndex
-                            .dueDate}') : null)
-                            : null
+                  child: GestureDetector(
+                    onTap: () => _goToEntryEdit(taskOnIndex, sDueDate),
+                    behavior: HitTestBehavior.translucent,
+                    child: OrganizerContainer(
+                      borderRadius: 10,
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+                      color: taskOnIndex.completed == 'true'
+                          ? Color(0xffbfbfbf)
+                          : Color(0xffe0e0e0),
+                      child: ListTile(
+                          leading: Checkbox(
+                            value: taskOnIndex.completed == 'true' ? true : false,
+                            onChanged: (inValue) =>
+                                _updateTaskCheckBox(inValue, taskOnIndex),
+                          ),
+                          title: Text(
+                              '${taskOnIndex.description}',
+                              style: taskOnIndex.completed == 'true'
+                              ? TextStyle(
+                                  color: Theme.of(inContext).disabledColor,
+                                  decoration: TextDecoration.lineThrough
+                              )
+                              : TextStyle()
+                          ),
+                          subtitle: taskOnIndex.completed == 'false' ?
+                          (taskOnIndex.dueDate != null ? Text('${taskOnIndex
+                              .dueDate}') : null)
+                              : null
+                      ),
                     ),
                   ),
                 );
@@ -85,7 +87,31 @@ class TasksList extends StatelessWidget {
     );
   }
 
-  void _updateTaskCheckBox(bool? inValue, Task taskOnIndex) async {
+  void _goToEntryCreate() {
+    values.tasksStore.entityBeingEdited = Task();
+    values.tasksStore.setChosenDate('');
+    values.tasksStore.setStackIndex(1);
+  }
+
+  Future _goToEntryEdit(Task taskOnIndex, String sDueDate) async{
+    if(taskOnIndex.completed == 'true') return;
+    if(taskOnIndex.id != null){
+      Map<String, dynamic>? data = await values.tasksDB.get(taskOnIndex.id!);
+      if(data != null){
+        values.tasksStore.entityBeingEdited = Task.mapToTask(data);
+        if(values.tasksStore.entityBeingEdited.dueDate == ''){
+          values.tasksStore.setChosenDate('');
+        }else{
+          values.tasksStore.setChosenDate(sDueDate);
+        }
+        values.tasksStore.setStackIndex(1);
+        return;
+      }
+    }
+    print('_go_EditTask was fed a null value');
+  }
+
+  Future _updateTaskCheckBox(bool? inValue, Task taskOnIndex) async {
     taskOnIndex.completed = inValue.toString();
     Map<String, dynamic> data = taskOnIndex.taskToMap();
     await values.tasksDB.update(data);
@@ -102,7 +128,11 @@ class TasksList extends StatelessWidget {
     return DateFormat.yMMMMd('en_US').format(dueDate.toLocal());
   }
 
-  _deleteTask(Task taskOnIndex) {
-    print('to be implemented...');
+  Future _deleteTask(Task taskOnIndex) async{
+    int result = await values.tasksDB.delete(taskOnIndex.id!);
+    if(result == 1){
+      print('$result task was deleted');
+    }
+    values.tasksStore.loadData(values.tasksDB, 'tasks');
   }
 }

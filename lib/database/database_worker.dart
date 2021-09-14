@@ -20,6 +20,15 @@ class DatabaseWorker{
     return db;
   }
 
+  Future<Map<String, dynamic>?> get(int inID) async{
+    Database db = await database;
+    List query = await db.query(
+      '$dbType', where: 'id = ?', whereArgs: [inID]
+    );
+    Map<String, dynamic>? result = query.first;
+    return result;
+  }
+
   Future _onCreate(Database db, int version) async {
     String? sql;
     switch(this.dbType){

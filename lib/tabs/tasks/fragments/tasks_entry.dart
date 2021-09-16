@@ -43,15 +43,7 @@ class TasksEntry extends StatelessWidget {
                     trailing: IconButton(
                       icon: Icon(Icons.edit),
                       color: values.organizerThemeColor,
-                      onPressed: () async {
-                        String chosenDate = await utils.selectDate(
-                          inContext,
-                          values.tasksStore.entityBeingEdited.dueDate,
-                          values.tasksStore,
-                        );
-                        values.tasksStore.entityBeingEdited.dueDate =
-                            chosenDate;
-                      },
+                      onPressed: () => _selectDate(inContext),
                     ),
                   ),
                 ],
@@ -92,5 +84,16 @@ class TasksEntry extends StatelessWidget {
       }
     }
     return true;
+  }
+  
+  Future _selectDate(BuildContext inContext) async{
+    utils.hideKeyboard(inContext);
+    String chosenDate = await utils.selectDate(
+      inContext,
+      values.tasksStore.entityBeingEdited.dueDate,
+      values.tasksStore,
+    );
+    values.tasksStore.entityBeingEdited.dueDate =
+        chosenDate;
   }
 }

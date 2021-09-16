@@ -52,14 +52,7 @@ class AppointmentsEntry extends StatelessWidget {
                     subtitle: Text(values.appointmentsStore.chosenDate),
                     trailing: IconButton(
                       icon: Icon(Icons.edit),
-                      onPressed: () async{
-                        String chosenDate = await utils.selectDate(
-                          inContext,
-                          values.appointmentsStore.entityBeingEdited.apptDate,
-                          values.appointmentsStore
-                        );
-                        values.appointmentsStore.entityBeingEdited.apptDate = chosenDate;
-                      }
+                      onPressed: () => _selectDate(inContext),
                     ),
                   ),
                   ListTile(
@@ -110,6 +103,7 @@ class AppointmentsEntry extends StatelessWidget {
   }
 
   Future _selectTime(BuildContext inContext) async{
+    utils.hideKeyboard(inContext);
     TimeOfDay initialTime = TimeOfDay.now();
 
     if(values.appointmentsStore.entityBeingEdited.apptTime != null) {
@@ -127,5 +121,15 @@ class AppointmentsEntry extends StatelessWidget {
       values.appointmentsStore.entityBeingEdited.apptTime = '${picked.hour},${picked.minute}';
       values.appointmentsStore.setApptTime(picked.format(inContext));
     }
+  }
+
+  Future _selectDate(BuildContext inContext) async{
+    utils.hideKeyboard(inContext);
+    String chosenDate = await utils.selectDate(
+        inContext,
+        values.appointmentsStore.entityBeingEdited.apptDate,
+        values.appointmentsStore
+    );
+    values.appointmentsStore.entityBeingEdited.apptDate = chosenDate;
   }
 }

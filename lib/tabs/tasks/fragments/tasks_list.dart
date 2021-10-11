@@ -15,7 +15,8 @@ class TasksList extends StatelessWidget {
         onFabPressed: () {
           _goToEntryCreate();
         },
-        child: ListView.builder(
+        child: ReorderableListView.builder(
+          onReorder: (int firstIndex, int secondIndex) => _onReorder(firstIndex, secondIndex),
           padding: EdgeInsets.only(top: 11.5),
           itemCount: values.tasksStore.entityList.length,
           itemBuilder: (_, int inIndex) {
@@ -25,6 +26,7 @@ class TasksList extends StatelessWidget {
               sDueDate = _convertDate(taskOnIndex);
             }
             return Slidable(
+              key: ValueKey(taskOnIndex.id),
               actionPane: SlidableScrollActionPane(),
               actions: [
                 GestureDetector(
@@ -53,8 +55,8 @@ class TasksList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
                   color: taskOnIndex.completed == 'true'
-                      ? Color(0xfff1f1f1)
-                      : Color(0xffbfbfbf),
+                      ? Color(0xffbfbfbf)
+                      : Color(0xfff1f1f1),
                   child: ListTile(
                       leading: Checkbox(
                         value: taskOnIndex.completed == 'true' ? true : false,
@@ -128,5 +130,44 @@ class TasksList extends StatelessWidget {
       print('$result task was deleted');
     }
     values.tasksStore.loadData(values.tasksDB, 'tasks');
+  }
+
+  _onReorder(int firstIndex, int secondIndex) {
+    int index1 = firstIndex;
+    int index2 = secondIndex;
+    List taskList = values.tasksStore.entityList;
+    if(index1 < index2){
+      index2 -= 1;
+      Task tempTask = Task(
+          description: taskList[index1].description,
+          dueDate: taskList[index1].dueDate,
+          completed: taskList[index1].completed
+      );
+      for(int i = index1; i < index2; i++){
+        taskList[i].changeTaskForReorder(taskList[i+1]);
+        Map<String, dynamic> rawTaskData = taskList[i].taskToMap();
+        values.tasksDB.update(rawTaskData);
+      }
+      taskList[index2].changeTaskForReorder(tempTask);
+      Map<String, dynamic> rawTaskData = taskList[index2].taskToMap();
+      values.tasksDB.update(rawTaskData);
+    }else{
+      Task tempTask = Task(
+        description: taskList[index2].description,
+        dueDate: taskList[index2].dueDate,
+        completed: taskList[index2].completed
+      );
+      taskList[index2].changeTaskForReorder(taskList[index1]);
+      Map<String, dynamic> rawTaskData1 = taskList[index2].taskToMap();
+      values.tasksDB.update(rawTaskData1);
+      for(int i = index1; i > index2 + 1; i--){
+        taskList[i].changeTaskForReorder(taskList[i-1]);
+        Map<String, dynamic> rawTaskData = taskList[i].taskToMap();
+        values.tasksDB.update(rawTaskData);
+      }
+      taskList[index2 + 1].changeTaskForReorder(tempTask);
+      Map<String, dynamic> rawTaskData2 = taskList[index2+1].taskToMap();
+      values.tasksDB.update(rawTaskData2);
+    }
   }
 }

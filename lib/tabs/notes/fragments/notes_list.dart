@@ -132,22 +132,25 @@ class NotesList extends StatelessWidget {
     List noteList = values.notesStore.entityList;
     if(index1 < index2){
       index2 -= 1;
-      String tempTitle = noteList[index1].title;
-      String tempContent = noteList[index1].content;
-      String tempColor = noteList[index1].color;
+      Note tempNote = Note(
+        title: noteList[index1].title,
+        content: noteList[index1].content,
+        color: noteList[index1].color
+      );
       for(int i = index1; i < index2; i++){
         noteList[i].changeNoteForReorder(noteList[i + 1]);
         Map<String, dynamic> rawNoteData = noteList[i].noteToMap();
         values.notesDB.update(rawNoteData);
       }
-      Note tempNote = Note(title: tempTitle, content: tempContent, color: tempColor);
       noteList[index2].changeNoteForReorder(tempNote);
       Map<String, dynamic> rawNoteData = noteList[index2].noteToMap();
       values.notesDB.update(rawNoteData);
     }else{
-      String tempTitle = noteList[index2].title;
-      String tempContent = noteList[index2].content;
-      String tempColor = noteList[index2].color;
+      Note tempNote = Note(
+        title: noteList[index2].title,
+        content: noteList[index2].content,
+        color: noteList[index2].color
+      );
       noteList[index2].changeNoteForReorder(noteList[index1]);
       Map<String, dynamic> rawNoteData1 = noteList[index2].noteToMap();
       values.notesDB.update(rawNoteData1);
@@ -156,7 +159,6 @@ class NotesList extends StatelessWidget {
         Map<String, dynamic> rawNoteData = noteList[i].noteToMap();
         values.notesDB.update(rawNoteData);
       }
-      Note tempNote = Note(title: tempTitle, content: tempContent, color: tempColor);
       noteList[index2 + 1].changeNoteForReorder(tempNote);
       Map<String, dynamic> rawNoteData2 = noteList[index2 + 1].noteToMap();
       values.notesDB.update(rawNoteData2);

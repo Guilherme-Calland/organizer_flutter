@@ -2,9 +2,9 @@ class Task{
   int? id;
   String? description;
   String? dueDate;
-  String completed = 'false';
+  String? completed;
 
-  Task();
+  Task({this.description, this.dueDate, this.completed = 'false'});
 
   Task.mapToTask(Map<String, dynamic> inData){
     this.id = inData['id'];
@@ -25,5 +25,11 @@ class Task{
     }
 
     return outMap;
+  }
+
+  changeTaskForReorder(Task task){
+    this.description = task.description;
+    this.dueDate = task.dueDate;
+    this.completed = task.completed;
   }
 }

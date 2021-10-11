@@ -217,31 +217,28 @@ class AppointmentsList extends StatelessWidget {
     List appointmentList = values.appointmentsStore.entityList;
     if(index1 < index2){
       index2 -= 1;
-      String tempTitle = appointmentList[index1].title;
-      String tempDescription = appointmentList[index1].description;
-      String tempApptDate = appointmentList[index1].apptDate;
-      String tempApptTime = appointmentList[index1].apptTime;
+      Appointment tempAppointment = Appointment(
+        title: appointmentList[index1].title,
+        description: appointmentList[index1].description,
+        apptDate: appointmentList[index1].apptDate,
+        apptTime: appointmentList[index1].apptTime
+      );
       for(int i = index1; i < index2; i++){
         appointmentList[i].changeAppointmentForReorder(appointmentList[i+1]);
         Map<String, dynamic> rawAppointmentData = appointmentList[i].appointmentToMap();
         values.appointmentsDB.update(rawAppointmentData);
       }
-      Appointment tempAppointment = Appointment(
-        title: tempTitle,
-        description: tempDescription,
-        apptTime: tempApptTime,
-        apptDate: tempApptDate
-      );
       appointmentList[index2].changeAppointmentForReorder(tempAppointment);
       Map<String, dynamic> rawAppointmentData = appointmentList[index2].appointmentToMap();
       values.appointmentsDB.update(rawAppointmentData);
     } else {
-      String tempTitle = appointmentList[index2].title;
-      String tempDescription = appointmentList[index2].description;
-      String tempApptDate = appointmentList[index2].apptDate;
-      String tempApptTime = appointmentList[index2].apptTime;
-      appointmentList[index2]
-          .changeAppointmentForReorder(appointmentList[index1]);
+      Appointment tempAppointment = Appointment(
+          title: appointmentList[index2].title,
+          description: appointmentList[index2].description,
+          apptDate: appointmentList[index2].apptDate,
+          apptTime: appointmentList[index2].apptTime
+      );
+      appointmentList[index2].changeAppointmentForReorder(appointmentList[index1]);
       Map<String, dynamic> rawAppointmentData1 =
           appointmentList[index2].appointmentToMap();
       values.appointmentsDB.update(rawAppointmentData1);
@@ -251,64 +248,10 @@ class AppointmentsList extends StatelessWidget {
             appointmentList[i].appointmentToMap();
         values.appointmentsDB.update(rawAppointmentData);
       }
-      Appointment tempAppointment = Appointment(
-          title: tempTitle,
-          description: tempDescription,
-          apptDate: tempApptDate,
-          apptTime: tempApptTime);
       appointmentList[index2 + 1].changeAppointmentForReorder(tempAppointment);
       Map<String, dynamic> rawAppointmentData2 =
           appointmentList[index2 + 1].appointmentToMap();
       values.appointmentsDB.update(rawAppointmentData2);
     }
-
-
-    // if (index1 < index2) {
-    //   index2 -= 1;
-    //   String tempTitle = appointmentList[index1].title;
-    //   String tempDescription = appointmentList[index1].description;
-    //   String tempApptDate = appointmentList[index1].apptDate;
-    //   String tempApptTime = appointmentList[index1].apptTime;
-    //   for (int i = index1; i < index2; i++) {
-    //     appointmentList[i].changeAppointmentForReorder(appointmentList[i + 1]);
-    //     Map<String, dynamic> rawAppointmentData =
-    //         appointmentList[i].appointmentToMap();
-    //     values.appointmentsDB.update(rawAppointmentData);
-    //   }
-    //   Appointment tempAppointment = Appointment(
-    //       title: tempTitle,
-    //       description: tempDescription,
-    //       apptDate: tempApptDate,
-    //       apptTime: tempApptTime);
-    //   appointmentList[index2].changeForReorder(tempAppointment);
-    //   // Map<String, dynamic> rawAppointmentData =
-    //   //     appointmentList[index2].appointmentToMap();
-    //   // values.appointmentsDB.update(rawAppointmentData);
-    // } else {
-    //   String tempTitle = appointmentList[index2].title;
-    //   String tempDescription = appointmentList[index2].description;
-    //   String tempApptDate = appointmentList[index2].apptDate;
-    //   String tempApptTime = appointmentList[index2].apptTime;
-    //   appointmentList[index2]
-    //       .changeAppointmentForReorder(appointmentList[index1]);
-    //   Map<String, dynamic> rawAppointmentData1 =
-    //       appointmentList[index2].appointmentToMap();
-    //   values.appointmentsDB.update(rawAppointmentData1);
-    //   for (int i = index1; i > index2 + 1; i--) {
-    //     appointmentList[i].changeAppointmentForReorder(appointmentList[i - 1]);
-    //     Map<String, dynamic> rawAppointmentData =
-    //         appointmentList[i].appointmentToMap();
-    //     values.appointmentsDB.update(rawAppointmentData);
-    //   }
-    //   Appointment tempAppointment = Appointment(
-    //       title: tempTitle,
-    //       description: tempDescription,
-    //       apptDate: tempApptDate,
-    //       apptTime: tempApptTime);
-    //   appointmentList[index2 + 1].changeAppointmentForReorder(tempAppointment);
-    //   Map<String, dynamic> rawAppointmentData2 =
-    //       appointmentList[index2 + 1].appointmentToMap();
-    //   values.appointmentsDB.update(rawAppointmentData2);
-    // }
   }
 }

@@ -35,7 +35,6 @@ abstract class _EntityStore with Store {
   @action
   void setChosenDate(String inDate){
     chosenDate = inDate;
-    print(chosenDate);
   }
 
   @action

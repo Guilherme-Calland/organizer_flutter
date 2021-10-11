@@ -14,7 +14,8 @@ class NotesList extends StatelessWidget {
       onFabPressed: () => _goToEntryCreate(),
       child: Observer(
         builder: (_) {
-          return ListView.builder(
+          return ReorderableListView.builder(
+            onReorder: (int firstIndex, int secondIndex) => _onReorder(firstIndex, secondIndex),
             padding: EdgeInsets.only(top: 11.5),
             itemCount: values.notesStore.entityList.length,
             itemBuilder: (_, int inIndex) {
@@ -43,6 +44,7 @@ class NotesList extends StatelessWidget {
                   colorOnIndex = Colors.purple;
               }
               return Slidable(
+                key: ValueKey(noteOnIndex.id),
                 actionPane: SlidableScrollActionPane(),
                 actions: [
                   GestureDetector(
@@ -124,13 +126,50 @@ class NotesList extends StatelessWidget {
     );
   }
 
+  void _onReorder(int firstIndex, int secondIndex){
+    int index1 = firstIndex;
+    int index2 = secondIndex;
+    List noteList = values.notesStore.entityList;
+    if(index1 < index2){
+      index2 -= 1;
+      String tempTitle = noteList[index1].title;
+      String tempContent = noteList[index1].content;
+      String tempColor = noteList[index1].color;
+      for(int i = index1; i < index2; i++){
+        noteList[i].changeNoteForReorder(noteList[i + 1]);
+        Map<String, dynamic> rawNoteData = noteList[i].noteToMap();
+        values.notesDB.update(rawNoteData);
+      }
+      Note tempNote = Note(title: tempTitle, content: tempContent, color: tempColor);
+      noteList[index2].changeNoteForReorder(tempNote);
+      Map<String, dynamic> rawNoteData = noteList[index2].noteToMap();
+      values.notesDB.update(rawNoteData);
+    }else{
+      String tempTitle = noteList[index2].title;
+      String tempContent = noteList[index2].content;
+      String tempColor = noteList[index2].color;
+      noteList[index2].changeNoteForReorder(noteList[index1]);
+      Map<String, dynamic> rawNoteData1 = noteList[index2].noteToMap();
+      values.notesDB.update(rawNoteData1);
+      for(int i = index1; i > index2 + 1; i--){
+        noteList[i].changeNoteForReorder(noteList[i - 1]);
+        Map<String, dynamic> rawNoteData = noteList[i].noteToMap();
+        values.notesDB.update(rawNoteData);
+      }
+      Note tempNote = Note(title: tempTitle, content: tempContent, color: tempColor);
+      noteList[index2 + 1].changeNoteForReorder(tempNote);
+      Map<String, dynamic> rawNoteData2 = noteList[index2 + 1].noteToMap();
+      values.notesDB.update(rawNoteData2);
+    }
+  }
+
   void _goToEntryCreate() {
     values.notesStore.entityBeingEdited = Note();
     values.notesStore.setColor(null);
     values.notesStore.setStackIndex(1);
   }
 
-  _goToEntryEdit(Note noteOnIndex) {
+  void _goToEntryEdit(Note noteOnIndex) {
     values.notesStore.entityBeingEdited = noteOnIndex;
     values.notesStore.setColor(noteOnIndex.color);
     values.notesStore.setStackIndex(1);

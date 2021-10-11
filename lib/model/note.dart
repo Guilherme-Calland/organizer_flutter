@@ -2,9 +2,9 @@ class Note{
   int? id;
   String? title;
   String? content;
-  String color = 'white';
+  String? color;
 
-  Note({this.title, this.id, this.content, color});
+  Note({this.title, this.id, this.content, this.color = 'white'});
 
   Note.mapToNote(Map<String, dynamic> inMap){
     this.id = inMap['id'];
@@ -25,6 +25,12 @@ class Note{
     }
 
     return outMap;
+  }
+
+  changeNoteForReorder(Note note){
+    this.title = note.title;
+    this.content = note.content;
+    this.color = note.color;
   }
 
 }

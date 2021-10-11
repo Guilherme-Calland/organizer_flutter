@@ -89,14 +89,15 @@ class TasksList extends StatelessWidget {
                                   color: Theme.of(inContext).disabledColor,
                                   decoration: TextDecoration.lineThrough)
                               : TextStyle()),
-                      subtitle: Text(
+                      subtitle: taskOnIndex.dueDate != null ?
+                      Text(
                         '${sDueDate}',
                         style: taskOnIndex.completed == 'true'
                             ? TextStyle(
                                 color: Theme.of(inContext).disabledColor,
                                 decoration: TextDecoration.lineThrough)
                             : TextStyle(),
-                      ),
+                      ): null,
                     ),
                   ),
                 ),

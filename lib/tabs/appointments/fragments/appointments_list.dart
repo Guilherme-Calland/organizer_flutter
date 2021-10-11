@@ -25,12 +25,14 @@ class AppointmentsList extends StatelessWidget {
                 int.parse(dateParts[2]),
               );
               _markedDateMap.add(
-                  apptDate,
-                  Event(
-                      date: apptDate,
-                      icon: Container(
-                        decoration: BoxDecoration(color: Colors.blue),
-                      )));
+                apptDate,
+                Event(
+                  date: apptDate,
+                  icon: Container(
+                    decoration: BoxDecoration(color: Colors.blue),
+                  ),
+                ),
+              );
             }
           },
         );
@@ -66,106 +68,111 @@ class AppointmentsList extends StatelessWidget {
 
   Future _showAppointments(DateTime inDate, BuildContext inContext) async {
     showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: inContext,
-        builder: (_) {
-          return Observer(
-            builder: (_) {
-              return OrganizerContainer(
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: GestureDetector(
-                  child: Column(
-                    children: [
-                      Text(
-                        DateFormat.yMMMMd('en_US').format(inDate.toLocal()),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: values.organizerThemeColor,
-                          fontSize: 24,
-                        ),
+      backgroundColor: Colors.transparent,
+      context: inContext,
+      builder: (_) {
+        return Observer(
+          builder: (_) {
+            return OrganizerContainer(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: GestureDetector(
+                child: Column(
+                  children: [
+                    Text(
+                      DateFormat.yMMMMd('en_US').format(inDate.toLocal()),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: values.organizerThemeColor,
+                        fontSize: 24,
                       ),
-                      Divider(),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: values.appointmentsStore.entityList.length,
-                          itemBuilder: (_, int inIndex) {
-                            Appointment appointmentOnIndex =
-                                values.appointmentsStore.entityList[inIndex];
-                            print(appointmentOnIndex.apptDate);
-                            if (appointmentOnIndex.apptDate !=
-                                '${inDate.year}, ${inDate.month}, ${inDate.day}') {
-                              return Container(
-                                height: 0,
-                              );
-                            }
-                            String apptTime = '';
-                            if (appointmentOnIndex.apptTime != null) {
-                              List timeParts =
-                                  appointmentOnIndex.apptTime!.split(',');
-                              TimeOfDay at = TimeOfDay(
-                                hour: int.parse(timeParts[0]),
-                                minute: int.parse(timeParts[1]),
-                              );
-                              apptTime = ' (${at.format(inContext)})';
-                            }
-                            return Slidable(
-                              actionPane: SlidableScrollActionPane(),
-                              actions: [
-                                GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  child: OrganizerContainer(
-                                    margin: EdgeInsets.only(
-                                        top: 2.5, bottom: 2.5, left: 10),
-                                    color: Colors.red,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  onTap: () =>
-                                      _deleteAppointment(appointmentOnIndex),
-                                )
-                              ],
-                              child: GestureDetector(
+                    ),
+                    Divider(),
+                    Expanded(
+                      child: ReorderableListView.builder(
+                        onReorder: (int firstIndex, int secondIndex) =>
+                            _onReorder(firstIndex, secondIndex),
+                        itemCount: values.appointmentsStore.entityList.length,
+                        itemBuilder: (_, int inIndex) {
+                          Appointment appointmentOnIndex =
+                              values.appointmentsStore.entityList[inIndex];
+                          print(appointmentOnIndex.apptDate);
+                          if (appointmentOnIndex.apptDate !=
+                              '${inDate.year}, ${inDate.month}, ${inDate.day}') {
+                            return Container(
+                              key: ValueKey(-inIndex),
+                              height: 0,
+                            );
+                          }
+                          String apptTime = '';
+                          if (appointmentOnIndex.apptTime != null) {
+                            List timeParts =
+                                appointmentOnIndex.apptTime!.split(',');
+                            TimeOfDay at = TimeOfDay(
+                              hour: int.parse(timeParts[0]),
+                              minute: int.parse(timeParts[1]),
+                            );
+                            apptTime = ' (${at.format(inContext)})';
+                          }
+                          return Slidable(
+                            key: ValueKey(appointmentOnIndex.id),
+                            actionPane: SlidableScrollActionPane(),
+                            actions: [
+                              GestureDetector(
                                 behavior: HitTestBehavior.translucent,
-                                onTap: () => _goToEntryEdit(
-                                    inContext, appointmentOnIndex),
                                 child: OrganizerContainer(
-                                  color: Color(0xffe0e0e0),
-                                  borderRadius: 10,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 2.5),
-                                  child: ListTile(
-                                    title: Text(
-                                        '${appointmentOnIndex.title} $apptTime'),
-                                    subtitle: appointmentOnIndex.description ==
-                                            null
-                                        ? null
-                                        : Text(
-                                            '${appointmentOnIndex.description}'),
+                                  margin: EdgeInsets.only(
+                                      top: 2.5, bottom: 2.5, left: 10),
+                                  color: Colors.red,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      )
+                                    ],
                                   ),
                                 ),
+                                onTap: () =>
+                                    _deleteAppointment(appointmentOnIndex),
+                              )
+                            ],
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () =>
+                                  _goToEntryEdit(inContext, appointmentOnIndex),
+                              child: OrganizerContainer(
+                                color: Color(0xfff1f1f1),
+                                borderRadius: 10,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 2.5),
+                                child: ListTile(
+                                  title: Text(
+                                      '${appointmentOnIndex.title} $apptTime'),
+                                  subtitle:
+                                      appointmentOnIndex.description == null
+                                          ? null
+                                          : Text(
+                                              '${appointmentOnIndex.description}',
+                                            ),
+                                ),
                               ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
                 ),
-              );
-            },
-          );
-        });
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Future _deleteAppointment(Appointment inAppointment) async {
@@ -202,5 +209,106 @@ class AppointmentsList extends StatelessWidget {
       values.appointmentsStore.setStackIndex(1);
       Navigator.pop(inContext);
     }
+  }
+
+  _onReorder(int firstIndex, int secondIndex) {
+    int index1 = firstIndex;
+    int index2 = secondIndex;
+    List appointmentList = values.appointmentsStore.entityList;
+    if(index1 < index2){
+      index2 -= 1;
+      String tempTitle = appointmentList[index1].title;
+      String tempDescription = appointmentList[index1].description;
+      String tempApptDate = appointmentList[index1].apptDate;
+      String tempApptTime = appointmentList[index1].apptTime;
+      for(int i = index1; i < index2; i++){
+        appointmentList[i].changeAppointmentForReorder(appointmentList[i+1]);
+        Map<String, dynamic> rawAppointmentData = appointmentList[i].appointmentToMap();
+        values.appointmentsDB.update(rawAppointmentData);
+      }
+      Appointment tempAppointment = Appointment(
+        title: tempTitle,
+        description: tempDescription,
+        apptTime: tempApptTime,
+        apptDate: tempApptDate
+      );
+      appointmentList[index2].changeAppointmentForReorder(tempAppointment);
+      Map<String, dynamic> rawAppointmentData = appointmentList[index2].appointmentToMap();
+      values.appointmentsDB.update(rawAppointmentData);
+    } else {
+      String tempTitle = appointmentList[index2].title;
+      String tempDescription = appointmentList[index2].description;
+      String tempApptDate = appointmentList[index2].apptDate;
+      String tempApptTime = appointmentList[index2].apptTime;
+      appointmentList[index2]
+          .changeAppointmentForReorder(appointmentList[index1]);
+      Map<String, dynamic> rawAppointmentData1 =
+          appointmentList[index2].appointmentToMap();
+      values.appointmentsDB.update(rawAppointmentData1);
+      for (int i = index1; i > index2 + 1; i--) {
+        appointmentList[i].changeAppointmentForReorder(appointmentList[i - 1]);
+        Map<String, dynamic> rawAppointmentData =
+            appointmentList[i].appointmentToMap();
+        values.appointmentsDB.update(rawAppointmentData);
+      }
+      Appointment tempAppointment = Appointment(
+          title: tempTitle,
+          description: tempDescription,
+          apptDate: tempApptDate,
+          apptTime: tempApptTime);
+      appointmentList[index2 + 1].changeAppointmentForReorder(tempAppointment);
+      Map<String, dynamic> rawAppointmentData2 =
+          appointmentList[index2 + 1].appointmentToMap();
+      values.appointmentsDB.update(rawAppointmentData2);
+    }
+
+
+    // if (index1 < index2) {
+    //   index2 -= 1;
+    //   String tempTitle = appointmentList[index1].title;
+    //   String tempDescription = appointmentList[index1].description;
+    //   String tempApptDate = appointmentList[index1].apptDate;
+    //   String tempApptTime = appointmentList[index1].apptTime;
+    //   for (int i = index1; i < index2; i++) {
+    //     appointmentList[i].changeAppointmentForReorder(appointmentList[i + 1]);
+    //     Map<String, dynamic> rawAppointmentData =
+    //         appointmentList[i].appointmentToMap();
+    //     values.appointmentsDB.update(rawAppointmentData);
+    //   }
+    //   Appointment tempAppointment = Appointment(
+    //       title: tempTitle,
+    //       description: tempDescription,
+    //       apptDate: tempApptDate,
+    //       apptTime: tempApptTime);
+    //   appointmentList[index2].changeForReorder(tempAppointment);
+    //   // Map<String, dynamic> rawAppointmentData =
+    //   //     appointmentList[index2].appointmentToMap();
+    //   // values.appointmentsDB.update(rawAppointmentData);
+    // } else {
+    //   String tempTitle = appointmentList[index2].title;
+    //   String tempDescription = appointmentList[index2].description;
+    //   String tempApptDate = appointmentList[index2].apptDate;
+    //   String tempApptTime = appointmentList[index2].apptTime;
+    //   appointmentList[index2]
+    //       .changeAppointmentForReorder(appointmentList[index1]);
+    //   Map<String, dynamic> rawAppointmentData1 =
+    //       appointmentList[index2].appointmentToMap();
+    //   values.appointmentsDB.update(rawAppointmentData1);
+    //   for (int i = index1; i > index2 + 1; i--) {
+    //     appointmentList[i].changeAppointmentForReorder(appointmentList[i - 1]);
+    //     Map<String, dynamic> rawAppointmentData =
+    //         appointmentList[i].appointmentToMap();
+    //     values.appointmentsDB.update(rawAppointmentData);
+    //   }
+    //   Appointment tempAppointment = Appointment(
+    //       title: tempTitle,
+    //       description: tempDescription,
+    //       apptDate: tempApptDate,
+    //       apptTime: tempApptTime);
+    //   appointmentList[index2 + 1].changeAppointmentForReorder(tempAppointment);
+    //   Map<String, dynamic> rawAppointmentData2 =
+    //       appointmentList[index2 + 1].appointmentToMap();
+    //   values.appointmentsDB.update(rawAppointmentData2);
+    // }
   }
 }

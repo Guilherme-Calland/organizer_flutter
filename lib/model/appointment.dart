@@ -5,7 +5,7 @@ class Appointment{
   String? apptDate;
   String? apptTime;
 
-  Appointment();
+  Appointment({this.title, this.description, this.apptDate, this.apptTime});
 
   Appointment.mapToAppointment(Map<String, dynamic> inMap){
     this.id = inMap['id'];
@@ -28,5 +28,12 @@ class Appointment{
     }
 
     return outMap;
+  }
+
+  changeAppointmentForReorder(Appointment appointment){
+    this.title = appointment.title;
+    this.description = appointment.description;
+    this.apptDate = appointment.apptDate;
+    this.apptTime = appointment.apptTime;
   }
 }

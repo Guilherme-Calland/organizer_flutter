@@ -1,6 +1,6 @@
 # organizer
 
-A new Flutter project.
+A organizing app for your, notes, tasks and appointments.        
 
 ## Getting Started
 
